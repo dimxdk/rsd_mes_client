@@ -1,0 +1,9 @@
+<launch>
+  <group ns="mes">
+    <node pkg="rsd_mes_client" name="mes_client" type="rsd_mes_sorting_client_node.py" output="screen" >
+	<param name="mes_command_topic" value="command" />
+	<param name="mes_status_topic" value="status" />
+	<param name="update_duration" value="1" /> <!-- Unit: Seconds -->
+    </node>
+  </group>
+</launch>
