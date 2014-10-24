@@ -3,9 +3,6 @@ Header header
 # Version of the client
 uint8 version_id
 
-# Robot id
-uint8 robot_id
-
 # When the robot has completed a task it shall return STATE_FREE
 uint8 STATE_FREE=0
 uint8 STATE_ERROR=1
