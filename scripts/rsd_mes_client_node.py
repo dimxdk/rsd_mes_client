@@ -35,6 +35,7 @@ class RSDMesClientNode():
         self.mes_status_topic = rospy.get_param("~mes_status_topic", 'mes_status_topic')
         self.update_duration = rospy.get_param("~update_duration", 1.0)
         self.server_address = rospy.get_param("~server_address", '')
+        self.robot_id = rospy.get_param("~robot_id", 0)
 
     def initMsg(self):
         return

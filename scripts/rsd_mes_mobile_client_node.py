@@ -41,7 +41,7 @@ class RSDMesMobileClientNode(RSDMesClientNode):
     def getStatus(self):
         status = {
             'version_id': self.version_id,
-            'robot_id': self.ros_msg_status.robot_id,
+            'robot_id': self.robot_id,
             'state': self.convertState(self.ros_msg_status.state),
             'time': str(datetime.datetime.fromtimestamp(self.ros_msg_status.header.stamp.to_time())),
             'battery': self.ros_msg_status.battery,
@@ -73,7 +73,7 @@ class RSDMesMobileClientNode(RSDMesClientNode):
             self.setCommand(command)            
         except:
             rospy.logerr("Connection with server failed")
-            self.online = False
+            #self.online = False
         
 if __name__ == '__main__':
     try:
