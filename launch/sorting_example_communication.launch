@@ -4,7 +4,7 @@
 	<param name="mes_command_topic" value="command" />
 	<param name="mes_status_topic" value="status" />
 	<param name="update_duration" value="1" /> <!-- Unit: Seconds -->
-	<param name="server_address" value="http://localhost:8000" />
+	<param name="server_address" value="http://192.168.1.50:8000" />
 	<param name="robot_id" value="1" />
     </node>
   </group>
