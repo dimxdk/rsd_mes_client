@@ -72,7 +72,7 @@ class RSDMesMobileClientNode(RSDMesClientNode):
             command = (self.server_connection.mobile_status(status))
             self.setCommand(command)            
         except:
-            rospy.logerr("Connection with server failed")
+            rospy.logerr("Communication with server failed")
             #self.online = False
         
 if __name__ == '__main__':
