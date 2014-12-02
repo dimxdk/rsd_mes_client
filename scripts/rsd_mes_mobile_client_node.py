@@ -51,11 +51,15 @@ class RSDMesMobileClientNode(RSDMesClientNode):
         return status
         
     def setCommand(self,command):
-        self.ros_msg_command.command = self.convertCommand(command['command'])
+        self.ros_msg_command.command = self.convertCommand(command['command'])        
+        self.ros_msg_command.path = ""
         if (command.has_key("path")):
-            self.ros_msg_command.path = command['path']
-        else:
-            self.ros_msg_command.path = ""
+            path = command['path']
+            if type(path) == type(list):
+                if path.length > 0:
+                    self.ros_msg_command.path = path[0]
+            else:
+                self.ros_msg_command.path = path
         return
     
     def fillDummyData(self):
