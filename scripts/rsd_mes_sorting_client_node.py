@@ -30,6 +30,11 @@ class RSDMesSortingClientNode(RSDMesClientNode):
             'COMMAND_SORTBRICKS' : mes_sorting_command.COMMAND_SORTBRICKS,
             'COMMAND_ABORT' : mes_sorting_command.COMMAND_ABORT
         }
+        self.color_dict = {
+            'COLOR_RED' : lego_brick.COLOR_RED,
+            'COLOR_BLUE' : lego_brick.COLOR_BLUE,
+            'COLOR_YELLOW' : lego_brick.COLOR_YELLOW
+        }
         self.command_error = mes_sorting_command.COMMAND_WAIT
         self.state_dict = {
             mes_sorting_status.STATE_FREE : 'STATE_FREE',
@@ -40,7 +45,10 @@ class RSDMesSortingClientNode(RSDMesClientNode):
             mes_sorting_status.STATE_ERROR : 'STATE_ERROR'
         }
         self.state_error = 'STATE_ERROR'     
-     
+    
+    def convertColor(self, mescolor):
+        return self.color_dict[mescolor]
+        
     def getStatus(self):
         status = {
             'version_id': self.version_id,
@@ -55,14 +63,14 @@ class RSDMesSortingClientNode(RSDMesClientNode):
     def setCommand(self,command):
         self.ros_msg_command.command = self.convertCommand(command['command'])
         if (command.has_key("order")):
-            self.msg_command.order.order_id = command['order']['order_id']
+            self.ros_msg_command.order.order_id = command['order']['order_id']
             legos = command['order']['bricks']
-            self.msg_command.order.bricks = []
+            self.ros_msg_command.order.bricks = []
             for i in range(len(legos)):
-                self.msg_command.order.bricks.append(lego_brick())
-                self.msg_command.order.bricks[i].color = legos[i]['color']
-                self.msg_command.order.bricks[i].size = legos[i]['size']
-                self.msg_command.order.bricks[i].count = legos[i]['count']
+                self.ros_msg_command.order.bricks.append(lego_brick())
+                self.ros_msg_command.order.bricks[i].color = self.convertColor(legos[i]['color'])
+                self.ros_msg_command.order.bricks[i].size = legos[i]['size']
+                self.ros_msg_command.order.bricks[i].count = legos[i]['count']
         else:
             self.ros_msg_command.order.order_id = 0
             self.ros_msg_command.order.bricks = []
@@ -80,13 +88,13 @@ class RSDMesSortingClientNode(RSDMesClientNode):
         self.ros_msg_command.order.bricks.append(lego_brick(color=lego_brick.COLOR_BLUE, size=6, count=5))
 
     def serverInfoExchange(self):
-        #try:
+        try:
             status = self.getStatus()
             command = (self.server_connection.cell_status(status))
             self.setCommand(command)            
-        #except:
-            #rospy.logerr("Communication with server failed")
-            #self.online = False
+        except:
+            rospy.logerr("Communication with server failed")
+            self.online = False
 
 if __name__ == '__main__':
     try:
